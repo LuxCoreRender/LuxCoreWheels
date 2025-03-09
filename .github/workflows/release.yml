@@ -41,7 +41,7 @@ on:
 
 jobs:
   call-build-wheels:
-    uses: ./.github/workflows/wheels.yml
+    uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@5019873cf6e9837c304ff0817e208fa65e49a46b
 
   create-release:
     name: 'Create release'
