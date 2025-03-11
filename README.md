@@ -7,7 +7,8 @@ This repository essentially contains:
 - the releases produced. 
 
 ## How-to (admin)
-Make a new release:
-Open actions menu (https://github.com/LuxCoreRender/LuxCoreWheels/actions)
-Select `LuxCore Python Wheels Releaser`
-Run workflow
+To make a new release:
+- Open actions menu (https://github.com/LuxCoreRender/LuxCoreWheels/actions)
+- Select `LuxCore Python Wheels Releaser` workflow
+- Run workflow
+- After workflow has succeeded, retrieve newly-created release and tweak its content
