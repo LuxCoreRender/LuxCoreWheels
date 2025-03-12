@@ -40,8 +40,12 @@ on:
         default: False
 
 jobs:
+  # Reminder: don't forget to update call-build-wheels commit version if you
+  # upgrade LuxCoreRender/LuxCore/.github/workflows/wheels.yml, otherwise
+  # your modifications won't be taken into account
   call-build-wheels:
-    uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@d08fbc2d73ab0acd08a3d224475e71e6c7d74502
+    name: 'Build wheels'
+    uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@ded6cebb918c7742f004d9004ce4ef5b06836f34
     with:
       repository: LuxCoreRender/LuxCore
       ref: ${{ inputs.luxcore-ref }}
@@ -69,7 +73,8 @@ jobs:
         run: ls -Rl ${{ github.workspace }}/dist
 
       - name: Generate artifact attestations
-        uses: actions/attest-build-provenance@v1.4.3
+        id: artifact-attestations
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ${{ github.workspace }}/dist/*
 
@@ -100,10 +105,11 @@ jobs:
             ## LuxCore Python Wheels
 
             This release is built from the following point in LuxCoreRender/LuxCore:
-            - Branch: ${{ needs.call-build-wheels.branch }}
-            - Commit: ${{ needs.call-build-wheels.commit }}
+            - Branch: ${{ needs.call-build-wheels.outputs.branch }}
+            - Commit: ${{ needs.call-build-wheels.outputs.commit }}
 
-            `pip install pyluxcore`
+            Attestations:
+            ${{ steps.artifact-attestations.outputs.attestation-url }}
 
       - run: |
           echo "### Release""" >> $GITHUB_STEP_SUMMARY
