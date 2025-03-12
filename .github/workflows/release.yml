@@ -11,17 +11,17 @@ on:
       release-tag:
         description: "Tag for the release"
         required: True
-        default: Test
+        default: v0.0.1
         type: string
       release-name:
         description: "Release name"
         required: False
         default: Test
         type: string
-      release-title:
-        description: "Release title"
-        required: False
-        default: Test
+      luxcore-ref:
+        description: "LuxCore ref to checkout for build"
+        required: True
+        default: for_v2.10
         type: string
       allow-updates:
         description: "Update existing release (if any)"
@@ -44,7 +44,7 @@ jobs:
     uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@d08fbc2d73ab0acd08a3d224475e71e6c7d74502
     with:
       repository: LuxCoreRender/LuxCore
-      ref: for_v2.10  # TODO
+      ref: ${{ inputs.luxcore-ref }}
 
   create-release:
     name: 'Create release'
@@ -95,6 +95,15 @@ jobs:
           prerelease: ${{ inputs.prerelease }}
           token: ${{ secrets.GITHUB_TOKEN }}
           updateOnlyUnreleased: true
+          draft: true
+          body: |
+            ## LuxCore Python Wheels
+
+            This release is built from the following point in LuxCoreRender/LuxCore:
+            - Branch: ${{ needs.call-build-wheels.branch }}
+            - Commit: ${{ needs.call-build-wheels.commit }}
+
+            `pip install pyluxcore`
 
       - run: |
           echo "### Release""" >> $GITHUB_STEP_SUMMARY
