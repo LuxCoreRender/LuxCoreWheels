@@ -45,7 +45,7 @@ jobs:
   # your modifications won't be taken into account
   call-build-wheels:
     name: 'Build wheels'
-    uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@a49ed4105eef587ad3df218293ad7defa461a708
+    uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@cbbdcbcd4119a981b36599a362c8792bdb7f0711
     with:
       repository: LuxCoreRender/LuxCore
       ref: ${{ inputs.luxcore-ref }}
@@ -71,12 +71,6 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls -Rl ${{ github.workspace }}/dist
-
-      - name: Generate artifact attestations
-        id: artifact-attestations
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ${{ github.workspace }}/dist/*
 
       - name: Re-zip artifacts
         working-directory: ${{ github.workspace }}/dist
@@ -109,7 +103,7 @@ jobs:
             - Commit: ${{ needs.call-build-wheels.outputs.commit }}
 
             Attestations:
-            ${{ steps.artifact-attestations.outputs.attestation-url }}
+            ${{ needs.call-build-wheels.outputs.attestation-url }}
 
       - run: |
           echo "### Release""" >> $GITHUB_STEP_SUMMARY
