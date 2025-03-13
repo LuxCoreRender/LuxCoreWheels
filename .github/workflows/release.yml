@@ -45,7 +45,6 @@ jobs:
   # your modifications won't be taken into account
   call-build-wheels:
     name: 'Build wheels'
-    runs-on: ubuntu-latest
     uses: LuxCoreRender/LuxCore/.github/workflows/wheels.yml@d43057e76912b2d783da50b90d28f45a5be2842e
     with:
       repository: LuxCoreRender/LuxCore
